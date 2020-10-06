@@ -1,0 +1,45 @@
+<article class="col-xs-12 col-md-12 col-lg-12  bg-body my-2 bg-body">
+    <div class="col-xs-4 col-md-4 col-lg-4 float-right ml-0 ">
+        <img src="{{asset('images/articles/' ~ article.image) | imagine_filter('card') }}" class="card-img" alt="...">
+    </div>
+    <div class="col-xs-8 col-md-8 col-lg-8">
+        <div class="card-body ">
+            <h5 class="card-title">{{article.title}}</h5>
+            <p class="card-text">
+                {{article.introduction}}
+            </p>
+            <p class="card-text">
+                {{article.content|u.truncate(250, '...')}}
+            </p>
+            <p class="card-text"><small class="text-muted">
+
+                    publié le {{article.createdAt|date("  m/d/Y", "Europe/Paris")}}
+
+                </small></p>
+
+
+            <a href="{{path('article_category_list', {'libelle' : article.category.libelle })}}">
+                <span class="badge badge-success"> {{article.category.libelle}}</span>
+            </a>
+
+            {% for tag in article.tags %}
+            <a href="{{path('article_tag_list', { 'libelle' : tag.libelle })}}">
+
+                <span class="badge badge-warning">
+                    {{tag.libelle}}
+                </span>
+
+            </a>
+
+            <a class=" btn btn-sm btn-success float-right" href="{{path('article_show', {'slug' : article.slug })}}">
+                Lire
+
+            </a>
+
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+</article>

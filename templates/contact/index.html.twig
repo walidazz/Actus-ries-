@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de contact{% endblock %}
+
+{% block body %}
+
+<div class=" col-sm-12 bg-light col-md-6 col-lg-6 mx-auto p-3 border border-dark my-5">
+    <h2 class="text-center"> Contactez nous </h2>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="text-center">
+        <input type="submit" class="btn btn-md btn-primary " value="Envoyer">
+    </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

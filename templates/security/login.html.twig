@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+<section style="height: 80vh;">
+
+    <form method="post"
+        class="col-md-10 col-lg-4  col-sm-12 mx-auto container  border border-black  bg-light my-5 p-2 ">
+        {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+        <div class="mb-3">
+            Vous êtes connecté en tant que {{ app.user.pseudo }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+        {% endif %}
+
+
+        <h1 class="h3 mb-3 font-weight-normal text-center">Connexion</h1>
+        <label for="inputEmail">Email</label>
+        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required
+            autofocus>
+        <label for="inputPassword">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" required>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+
+        <div class="float-right">
+            <a href="{{path('forgottenPassword')}}">Mot de passe oublié ?</a>
+        </div>
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Se souvenir de moi
+            </label>
+
+        </div>
+
+        <div class="text-center m-2">
+            <button class="btn btn-sm btn-success" type="submit">
+                Connexion
+            </button>
+        </div>
+        <hr>
+        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}"
+            class="btn btn-danger btn-sm col-sm-2 col-md-5 col-lg-5">
+            Continuer
+            avec Google</a>
+
+        <a class="btn btn-info btn-sm float-right col-sm-2 col-md-5 col-lg-5" href="{{path('register')}}"> Pas encore
+            inscrit ? </a> 
+    </form>
+
+</section>
+
+{% endblock %}

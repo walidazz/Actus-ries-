@@ -1,0 +1,89 @@
+easy_admin:
+  site_name: Administration
+  entities:
+    #
+    # List the entity class name you want to manage
+    User:
+      class: App\Entity\User
+      list:
+        actions: ['-new']
+        fields: 
+            - id
+            - { property: 'avatar', type: 'image', height: 70 , base_path: '/images/users/' } 
+            - pseudo
+            - email
+            - sexe
+            - { property: 'roles', label: 'Rôles', type: json_array}
+            - birthday
+            - enable
+            - comments
+            - reported
+      form:
+        fields:
+            - pseudo
+            - email
+            - { property: 'password', type: 'password'}
+            - { property: 'roles', label: 'Rôles', type: choice, type_options: {expanded: true, multiple: true, choices: {'Utilisateur':'ROLE_USER', 'Administrateur':'ROLE_ADMIN'}}}
+            - sexe
+            - { property: 'imageFile', type: 'file' } 
+
+    Article:
+      class: App\Entity\Article
+      form:
+        fields:
+            - { property: 'imageFile', type: 'file' }            
+            - title
+            - introduction
+            - { property: 'content', type: 'text_editor' }
+            - category
+            - { property: 'tags', type_options: { 'by_reference': false } }
+            - auteur 
+      list:
+        fields: 
+            - id
+            - auteur
+            - { property: 'image', type: 'image', height: 70 , base_path: '/images/articles/' } 
+            - title
+            - category
+            - tags
+            - comments
+            - createdAt
+            - reportArticles
+    Comment:
+      class: App\Entity\Comment
+      list:
+        fields: 
+            - id
+            - { property: 'auteur.avatar', type: 'avatar', height: 60} 
+            - auteur
+            - article
+            - content
+            - createdAt
+            - reportComments
+      form:
+        fields:
+            - auteur
+            - content
+            - article
+
+    Tag:
+      class: App\Entity\Tag
+      form:
+        fields:
+            - libelle
+
+    Category:
+      class: App\Entity\Category
+      form:
+        fields:
+            - libelle
+
+    ReportUser:
+      class: App\Entity\ReportUser
+
+    ReportArticle:
+      class: App\Entity\ReportArticle
+
+    ReportComment:
+      class: App\Entity\ReportComment 
+

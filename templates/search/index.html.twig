@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Resultat de recherche{% endblock %}
+
+{% block body %}
+
+
+{% if articles|length == 0 %}
+
+<div class="container d-flex h-100">
+    <div class="row mx-auto align-self-center">
+    Aucun resultat trouvé !
+    </div>
+</div>
+
+{% else %}
+
+<div  class="container">
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-6">
+            {% for article in articles %}
+
+            <div class="card m-2" style="width: 18rem;">
+                <img class="card-img-top" src="{{asset('images/articles/' ~ article.image)}}" alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text"> Title : {{article.title}}</p>
+                    <p class="card-text"> Introduction {{article.introduction}}</p>
+                    <p class="card-text"> Content: {{article.content|raw}}</p>
+                    <a class="btn btn-secondary btn-md" href="{{path('article_show' , {'slug' : article.slug})}}">Voir
+                        détail</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="pagination">
+            <div class="mx-auto">
+                {{ knp_pagination_render(articles) }}
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="col">
+
+    </div>
+</div>
+{% endblock %}

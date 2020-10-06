@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+
+<div class="container bootstrap snippet my-5 p-5 style="height: 80vh;"">
+    <div class="panel-body inf-content bg-light">
+        <div class="row">
+            <div class="col-md-4">
+                <img alt="" style="width:600px;" title="" class="img-circle img-thumbnail isTooltip"
+                    src="{{asset('images/users/' ~ user.avatar) | imagine_filter('card') }}"
+                    data-original-title="Usuario">
+                <ul title="Ratings" class="list-inline ratings text-center">
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+
+                <div class="table-responsive">
+                    <table class="table table-user-information">
+                        <tbody>
+
+
+                            <!-- <tr>
+                                <td>
+                                    <strong>
+                                        <span class="glyphicon glyphicon-cloud text-primary"></span>
+                                        Lastname
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    Bootstrap
+                                </td>
+                            </tr> -->
+
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <span class="glyphicon glyphicon-bookmark text-primary"></span>
+                                        Username
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {{user.pseudo}}
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <span class="glyphicon glyphicon-eye-open text-primary"></span>
+                                        Role
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                    Administrateur
+                                    {% else %}
+                                    Membre
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% if is_granted('ROLE_ADMIN') or app.user is same as(user) %}
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <span class="glyphicon glyphicon-envelope text-primary"></span>
+                                        Email
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {{user.email}}
+                                </td>
+                            </tr>
+
+
+
+
+
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <span class="glyphicon glyphicon-calendar text-primary"></span>
+                                        Date de naissance
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {% if user.birthday is not null %}
+                                    {{user.birthday|date(" m/d/Y", "Europe/Paris")}}
+
+                                    {% else %}
+                                    Non renseigné
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <span class="glyphicon glyphicon-envelope text-primary"></span>
+                                        Status
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {% if user.enable %}
+                                    Actif
+                                    {% else %}
+                                    Inactif
+                                    {% endif %}
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <span class="glyphicon glyphicon-envelope text-primary"></span>
+                                        Nombre de commentaires postés
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {{user.comments|length}}
+
+                                </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td>
+                                    <strong>
+                                        <span class="glyphicon glyphicon-calendar text-primary"></span>
+                                        Date d'inscription
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {{user.createdAt|date("  m/d/Y", "Europe/Paris")}}
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+        {% if is_granted('ROLE_USER') %}
+        <div class="float-right">
+            <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalReportUser" data-whatever="@mdo"
+                style="color:red;"> <span>Signaler</span>
+            </a>
+
+            {% include "shared/_modalReportUser.html.twig" with {"path" : path('report_user', {'id' : user.id }) } %}
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+
+<div class="col-md-8 col-lg-4 mx-auto mt-5 border border-black rounded p-2 bg-light">
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="text-center">
+        <input class="btn btn-primary btn-md" type="submit" value="S'inscrire">
+    </div>
+    {{ form_end(form) }}
+
+    <hr>
+    <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}" class="btn btn-danger btn-sm"> Continuer
+        avec Google</a>
+
+</div>
+
+
+
+
+
+{% endblock %}

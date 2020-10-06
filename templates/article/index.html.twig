@@ -1,0 +1,265 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{article.title}}{% endblock %}
+
+{% block body %}
+
+<div class="blog-single">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-lg-8 m-15px-tb">
+                <article class="article">
+                    <div class="article-img">
+                        <img src="{{asset('images/articles/' ~ article.image) | imagine_filter('detail') }}" title=""
+                            alt="">
+                    </div>
+                    <div class="article-title">
+                        <h6><a href="{{path('article_category_list', {'libelle' : article.category.libelle })}}">
+
+                                {{article.category.libelle}}
+
+
+
+                            </a></h6>
+                        <h2>{{article.title}}</h2>
+                        <a href="{{path('user_profile' , { 'id' : article.auteur.id })}}">
+                            <div class="media">
+                                <div class="avatar">
+                                    <img src="{{asset('images/users/' ~ article.auteur.avatar) | imagine_filter('avatar') }}"
+                                        title="avatar" alt="avatar">
+                                </div>
+                                <div class="media-body">
+
+                                    <label>{{article.auteur}}</label>
+                                    <span>publié le {{article.createdAt|date("  m/d/Y", "Europe/Paris")}}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="article-content">
+                        <p class="font-italic">{{article.introduction}}</p>
+                        <p>{{article.content}}</p>
+
+
+                        <!--<blockquote>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                            <p class="blockquote-footer">Someone famous in <cite title="Source Title">Dick
+                                    Grayson</cite></p>
+                        </blockquote> -->
+
+                    </div>
+                    <div class="nav tag-cloud">
+
+
+                        {% for tag in article.tags %}
+                        <a href="{{path('article_tag_list', { 'libelle' : tag.libelle })}}"> {{tag.libelle}}</a>
+                        {% endfor %}
+
+
+
+                        <a href="{{path('article_category_list', {'libelle' : article.category.libelle })}}">
+
+                            {{article.category.libelle}}
+
+
+
+                        </a>
+
+                    </div>
+                    <div class="float-right">
+                        <a data-toggle="modal" data-target="#modalReportArticle" data-whatever="@mdo"
+                            style="color:red;">signaler
+                        </a>
+
+                        {% include "shared/_modalReportArticle.html.twig" with {"path" : path('report_article', {'id' : article.id }) } %}
+                    </div>
+                </article>
+                <div class="contact-form article-comment">
+                    <h4>Laisser un commentaire </h4>
+                    <!-- <form id="contact-form" method="POST" action="">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <textarea id="message" name="content" placeholder="Ecrire un commentaire" rows="4"
+                                        class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="send">
+                                    <button class="px-btn theme"><span>Submit</span> <i class="arrow"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form> -->
+
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <input type="submit" value="envoyer">
+                    {{ form_end(form) }}
+
+
+                    {% for comment in article.comments %}
+                    <hr>
+                    <section>
+
+                        {% if is_granted('ROLE_USER') %}
+                        <div class="float-right">
+                            <a data-toggle="modal" data-target="#modalReportComment" data-whatever="@mdo"
+                                style="color:red;"><i class="fas fa-exclamation-triangle"></i>
+                            </a>
+
+                            {% include "shared/_modalReportComment.html.twig" with {"path" : path('report_comment', {'id' : comment.id }) } %}
+                        </div>
+                        {% endif %}
+
+
+
+                        {%  if comment.auteur is same as(app.user) or is_granted('ROLE_ADMIN') %}
+                        <div class="float-right mx-1">
+                            <form method="POST" action="{{path('comment_delete', {'id' : comment.id })}}"
+                                onsubmit="return confirm('Voulez vous vraiment supprimer ce commentaire ?');">
+                                <input type="hidden" name="_method" value="POST">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+                                <button type="submit"> <i class="fas fa-trash-alt"></i></button>
+
+                            </form>
+                        </div>
+
+                        {% endif %}
+                        <div class="media mb-4">
+                            <a href="{{path('user_profile' , { 'id' : comment.auteur.id })}}"> <img
+                                    class="d-flex mr-3 rounded-circle"
+                                    src="{{asset('images/users/' ~ comment.auteur.avatar) | imagine_filter('avatar') }}"
+                                    alt="image de profil de {{comment.auteur.pseudo}} "> </a>
+                            <div class="media-body">
+                                <a href="{{path('user_profile' , { 'id' : comment.auteur.id })}}">
+                                    <h5 class="mt-0">{{comment.auteur}}</h5>
+                                </a>
+                                {{ comment.content|raw }}
+                            </div>
+                        </div>
+
+                    </section>
+                    {% endfor %}
+                </div>
+
+
+            </div>
+            <div class="col-lg-4 m-15px-tb blog-aside">
+                <!-- Author -->
+                <div class="widget widget-author">
+                    <div class="widget-title">
+                        <h3>Auteur</h3>
+                    </div>
+                    <div class="widget-body">
+                        <div class="media align-items-center">
+                            <div class="avatar">
+                                <img src="{{asset('images/users/' ~ article.auteur.avatar) | imagine_filter('avatar') }}"
+                                    title="" alt="">
+                            </div>
+                            <div class="media-body">
+                                <h6>{{article.auteur}}</h6>
+                            </div>
+                        </div>
+                        <p> <small>Développeur et administrateur du site </small> </p>
+                    </div>
+                </div>
+                <!-- End Author -->
+                <!-- Trending Post -->
+                <div class="widget widget-post">
+                    <div class="widget-title">
+                        <h3>Articles récents</h3>
+                    </div>
+                    <div class="widget-body">
+
+                        {% for new in news %}
+                        <div class="latest-post-aside media">
+                            <div class="lpa-left media-body">
+                                <div class="lpa-title">
+                                    <h5><a href="{{path('article_show', { 'slug' : new.slug})}}">{{new.title}}</a></h5>
+                                </div>
+                                <div class="lpa-meta">
+
+                                    <a class="date" href="#">
+                                        publié le {{new.createdAt|date("  m/d/Y", "Europe/Paris")}}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="lpa-right">
+                                <a href="#">
+                                    <img src="
+                                        {{asset('images/articles/' ~ new.image) | imagine_filter('miniature') }}"
+                                        title="" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+
+
+                    </div>
+                </div>
+                <!-- End Trending Post -->
+                <!-- Latest Post -->
+                <div class="widget widget-latest-post">
+                    <div class="widget-title">
+                        <h3> Articles similaires</h3>
+                    </div>
+                    <div class="widget-body">
+
+                        {% for same in sameCategory %}
+                        <div class="latest-post-aside media">
+                            <div class="lpa-left media-body">
+                                <div class="lpa-title">
+                                    <h5><a href="{{path('article_show', { 'slug' : same.slug})}}">{{same.title}}</a>
+                                    </h5>
+                                </div>
+                                <div class="lpa-meta">
+
+                                    <a class="date" href="#">
+                                        publié le {{same.createdAt|date("  m/d/Y", "Europe/Paris")}}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="lpa-right">
+                                <a href="#">
+                                    <img src="
+                                        {{asset('images/articles/' ~ same.image) | imagine_filter('miniature') }}"
+                                        title="" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+
+
+                    </div>
+                </div>
+                <!-- End Latest Post -->
+                <!--
+                <div class="widget widget-tags">
+                    <div class="widget-title">
+                        <h3>Latest Tags</h3>
+                    </div>
+                    <div class="widget-body">
+                        <div class="nav tag-cloud">
+                            <a href="#">Design</a>
+                            <a href="#">Development</a>
+                            <a href="#">Travel</a>
+                            <a href="#">Web Design</a>
+                            <a href="#">Marketing</a>
+                            <a href="#">Research</a>
+                            <a href="#">Managment</a>
+                        </div>
+                    </div>
+                </div>
+                End widget Tags -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

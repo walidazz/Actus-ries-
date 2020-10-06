@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultat de la recherche {% endblock %}
+
+{% block body %}
+
+<div class="container mx-auto bg-light">
+
+    <div class="text-center ">
+        <h2 class="shadow lg  p-4 my-4"> Résultat de la recherche</h2>
+    </div>
+
+
+
+    <div class="text-center ">
+
+    </div>
+    <div class="container bootstrap snippets bootdey">
+
+        <div class="row">
+
+
+            {% if articles|length > 0 %}
+
+            {% for article in articles %}
+
+            {% include "shared/_searchArticle.html.twig" with {'article' : article} %}
+
+            {% endfor %}
+
+            {% else %}
+
+            <div class="mx-auto">Aucun résultat trouvé</div>
+
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+
+
+
+</div>
+
+
+
+<div class="pagination">
+    <div class="mx-auto">
+
+
+        {{ knp_pagination_render(articles) }}
+    </div>
+</div>
+
+
+
+{% endblock %}

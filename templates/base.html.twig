@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+
+    <meta name="description" content="Site d'actualité sur les films et séries">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{encore_entry_link_tags("app")}}
+    <meta name="robots" content="all" />
+    <script src="https://kit.fontawesome.com/02235fec30.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.wpcc.io/lib/1.0.2/cookieconsent.min.css" />
+    <script src="https://cdn.wpcc.io/lib/1.0.2/cookieconsent.min.js" defer></script>
+    <script>window.addEventListener("load", function () { window.wpcc.init({ "border": "thin", "corners": "small", "colors": { "popup": { "background": "#222222", "text": "#ffffff", "border": "#f9f9f9" }, "button": { "background": "#f9f9f9", "text": "#000000" } }, "position": "bottom", "content": { "href": "https://127.0.0.1:8000/" } }) });</script>
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> -->
+
+    {% block stylesheets %}{% endblock %}
+
+
+</head>
+
+<body>
+    {% include "shared/header.html.twig" %}
+
+
+    {% block body %}{% endblock %}
+
+
+    {% include "shared/footer.html.twig" %}
+
+
+    {{ encore_entry_script_tags("app") }}
+
+    <!-- <script src="https://js.stripe.com/v3/"></script> -->
+    <script src="//www.google.com/recaptcha/api.js?hl=fr"></script>
+    {% block javascripts %}{% endblock %}
+
+
+
+
+</body>
+
+</html>

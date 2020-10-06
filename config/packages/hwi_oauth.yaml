@@ -1,0 +1,8 @@
+hwi_oauth:
+  firewall_name: main
+  resource_owners:
+    google:
+      type: google
+      client_id: 796544688355-3c2lvl30172v2oao4376rshv4tmdhdi0.apps.googleusercontent.com
+      client_secret: emOL4icjbVxGYclWsjgGZvT_
+      scope: "email profile"
