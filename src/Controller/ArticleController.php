@@ -40,32 +40,18 @@ class ArticleController extends AbstractController
     public function getHomepage()
     {
 
-        $globales =   $this->cache->get('globales', function () {
-            return $this->repo->findBy([], ['createdAt' => 'DESC'], 3);
-        });
+        $data = $this->cache->get('homepage', function (ItemInterface $item) {
+            $item->expiresAfter(24 * 3600);
 
-        $series = $this->cache->get('series', function () {
-            return $this->repo->findThreeLast('Séries');
-        });
-        $films = $this->cache->get('films', function () {
-            return $this->repo->findThreeLast('Films');
-        });
+            $globales = $this->repo->findBy([], ['createdAt' => 'DESC'], 3);
+            $series = $this->repo->findThreeLast('Séries');
+            $films = $this->repo->findThreeLast('Films');
+            $animes = $this->repo->findThreeLast('Animés');
+            $news = $this->repo->findThreeLast('Actualités');
 
-        $animes = $this->cache->get('animes', function () {
-            return $this->repo->findThreeLast('Animés');
+            return compact('globales', 'series', 'films', 'animes', 'news');
         });
-
-        $news = $this->cache->get('news', function () {
-            return $this->repo->findThreeLast('Actualités');
-        });
-
-        return $this->render('article/homepage.html.twig', [
-            'globales' => $globales,
-            'series' => $series,
-            'films' => $films,
-            'animes' => $animes,
-            'news' => $news
-        ]);
+        return $this->render('article/homepage.html.twig', $data);
     }
 
 
