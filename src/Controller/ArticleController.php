@@ -40,18 +40,8 @@ class ArticleController extends AbstractController
     public function getHomepage()
     {
 
-        $data = $this->cache->get('homepage', function (ItemInterface $item) {
-            $item->expiresAfter(24 * 3600);
 
-            $globales = $this->repo->findBy([], ['createdAt' => 'DESC'], 3);
-            $series = $this->repo->findThreeLast('Séries');
-            $films = $this->repo->findThreeLast('Films');
-            $animes = $this->repo->findThreeLast('Animés');
-            $news = $this->repo->findThreeLast('Actualités');
-
-            return compact('globales', 'series', 'films', 'animes', 'news');
-        });
-        return $this->render('article/homepage.html.twig', $data);
+        return $this->render('article/homepage.html.twig');
     }
 
 
