@@ -1,5 +1,5 @@
-<div class="container mx-auto bg-light mb-5">
-    <div class="shadow lg  p-4 my-4  text-center ">
+<div class="container mx-auto  mb-5">
+    <div class="shadow-lg bg-light p-4 my-4  text-center ">
         <h2> Nouveautés </h2>
     </div>
 
@@ -33,11 +33,13 @@
     </div>
 
 
-    <div class="text-center  ">
-        <h2 class="shadow lg  p-4 my-4  "> Actualités</h2>
+    <div class="shadow-lg bg-light p-4 my-4  text-center ">
+        <h2> Actualités</h2>
     </div>
-    <div class="row my-3 ">
-        <div class="card-deck mx-auto ">
+
+    <section class="section" id="blog">
+        <div class="container">
+            <div class="row">
 
             {% for new in news %}
 
@@ -49,16 +51,16 @@
         </div>
 
     </div>
+    </section>
 
 
 
-
-    <div class="text-center  ">
-        <h2 class="shadow lg  p-4 my-4  "> Les séries </h2>
+    <div class="shadow-lg bg-light p-4 my-4  text-center ">
+        <h2> Les séries </h2>
     </div>
-    <div class="row my-3 ">
-        <div class="card-deck mx-auto ">
-
+    <section class="section" id="blog">
+        <div class="container">
+            <div class="row">
             {% for serie in series %}
 
             {% include "shared/_card.html.twig" with {'article' : serie} %}
@@ -69,16 +71,17 @@
         </div>
 
     </div>
+</section>
 
 
 
-
-    <div class="text-center ">
-        <h2 class="shadow lg  p-4 my-4 "> Les films </h2>
-    </div>
-    <div class="row my-3">
-        <div class="card-deck mx-auto">
-
+<div class="shadow-lg bg-light p-4 my-4  text-center ">
+    <h2> Les films</h2>
+</div>
+ 
+    <section class="section" id="blog">
+        <div class="container">
+            <div class="row">
             {% for film in films %}
 
             {% include "shared/_card.html.twig" with { 'article' : film} %}
@@ -89,16 +92,17 @@
 
     </div>
 
-
+    </section>
 
 
 
     <div class="text-center ">
-        <h2 class="shadow lg  p-4 my-4 "> Les animés </h2>
+        <h2 class="shadow-lg bg-light p-4 my-4 "> Les animés </h2>
     </div>
-    <div class="row my-3">
-        <div class="card-deck mx-auto">
-
+   
+    <section class="section" id="blog">
+        <div class="container">
+            <div class="row">
             {% for anime in animes %}
 
             {% include "shared/_card.html.twig" with { 'article' : anime} %}
@@ -108,7 +112,7 @@
         </div>
 
     </div>
-
+</section>
 
 
 </div>
